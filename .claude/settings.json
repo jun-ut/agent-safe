@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "deny": [
+      "WebFetch",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "PowerShell(Invoke-WebRequest *)",
+      "PowerShell(Invoke-RestMethod *)",
+      "PowerShell(curl *)",
+      "PowerShell(iwr *)",
+      "PowerShell(irm *)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.azure/**)",
+      "Read(~/.kube/**)",
+      "Read(~/.git-credentials)",
+      "Read(~/.netrc)",
+      "Read(~/_netrc)",
+      "Read(~/.docker/config.json)",
+      "Read(~/AppData/Roaming/GitHub CLI/**)",
+      "Read(~/AppData/Local/Google/Chrome/User Data/**)",
+      "Read(~/AppData/Local/Microsoft/Edge/User Data/**)",
+      "Read(~/AppData/Local/BraveSoftware/Brave-Browser/User Data/**)",
+      "Read(~/AppData/Roaming/Mozilla/Firefox/Profiles/**)",
+      "Read(~/AppData/Roaming/Microsoft/Credentials/**)",
+      "Read(~/AppData/Local/Microsoft/Credentials/**)",
+      "Read(~/AppData/Roaming/Microsoft/Protect/**)",
+      "Read(~/AppData/Local/Microsoft/Vault/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell|Read|Grep|Glob|Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-sensitive-operations.mjs\""
+          }
+        ]
+      }
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "network": { "allowedDomains": ["localhost", "127.0.0.1"] }
+  }
+}
